@@ -1817,47 +1817,48 @@ Triggers are special types of stored procedures that automatically run when spec
     - DDL Trigger Example
       - Track Database Schema Changes: Captures all changes made to table structures and records them in an audit table.
 
-```sql
-Copy code
-CREATE TRIGGER trg_DDL_Audit
-ON DATABASE
-FOR CREATE_TABLE, ALTER_TABLE, DROP_TABLE
-AS
-BEGIN
-    INSERT INTO SchemaChangesAudit (EventType, ObjectName, ChangeDate)
-    VALUES (EVENTDATA().value('(/EVENT_INSTANCE/EventType)[1]', 'NVARCHAR(100)'),
-            EVENTDATA().value('(/EVENT_INSTANCE/ObjectName)[1]', 'NVARCHAR(100)'),
-            GETDATE());
-END;
-```
-LOGON Trigger Example
-Limit Logins Based on Time: Allows logins only during specified hours.
+        ```sql
+        Copy code
+        CREATE TRIGGER trg_DDL_Audit
+        ON DATABASE
+        FOR CREATE_TABLE, ALTER_TABLE, DROP_TABLE
+        AS
+        BEGIN
+            INSERT INTO SchemaChangesAudit (EventType, ObjectName, ChangeDate)
+            VALUES (EVENTDATA().value('(/EVENT_INSTANCE/EventType)[1]', 'NVARCHAR(100)'),
+                    EVENTDATA().value('(/EVENT_INSTANCE/ObjectName)[1]', 'NVARCHAR(100)'),
+                    GETDATE());
+        END;
+        ```
+    - LOGON Trigger Example
+      Limit Logins Based on Time: Allows logins only during specified hours.
 
-```sql
-Copy code
-CREATE TRIGGER trg_LimitedLogon
-ON ALL SERVER
-FOR LOGON
-AS
-BEGIN
-    DECLARE @StartTime TIME = '08:00';
-    DECLARE @EndTime TIME = '18:00';
+      ```sql
+      Copy code
+      CREATE TRIGGER trg_LimitedLogon
+      ON ALL SERVER
+      FOR LOGON
+      AS
+      BEGIN
+          DECLARE @StartTime TIME = '08:00';
+          DECLARE @EndTime TIME = '18:00';
 
-    IF (CONVERT(TIME, GETDATE()) NOT BETWEEN @StartTime AND @EndTime)
-    BEGIN
-        ROLLBACK;
-    END;
-END;
-```
-Best Practices and Considerations for Triggers
-Avoid Excessive Logic in Triggers: Triggers should be lightweight to avoid slowing down INSERT, UPDATE, or DELETE operations.
-Be Cautious with Recursive Triggers: If a trigger causes an action that invokes the same trigger, this can lead to infinite loops. Use the RECURSIVE_TRIGGERS option carefully.
-Monitor Trigger Impact on Performance: Triggers can introduce performance overhead, especially with large transactions.
-Test Thoroughly: Ensure triggers are properly tested, as they can impact application functionality if they inadvertently modify data or rollback transactions.
-Limit Usage: Triggers are powerful but can make debugging and understanding the flow of data difficult. Consider alternatives like stored procedures or application-level logic for complex business rules.
-Events vs. Triggers
-Triggers are ideal for capturing data changes at the table level and enforcing data integrity rules automatically, while events (using Extended Events or SQL Server Agent) are more suited for monitoring database performance, capturing server-wide occurrences, and handling automated administrative tasks.
-SQL Server Agent Jobs and Alerts are complementary tools to automate routine tasks or notify administrators of critical events, but they work asynchronously and are less granular compared to triggers.
+          IF (CONVERT(TIME, GETDATE()) NOT BETWEEN @StartTime AND @EndTime)
+          BEGIN
+              ROLLBACK;
+          END;
+      END;
+      ```
+## Best Practices and Considerations for Triggers
+  - Avoid Excessive Logic in Triggers: Triggers should be lightweight to avoid slowing down INSERT, UPDATE, or DELETE operations.
+  - Be Cautious with Recursive Triggers: If a trigger causes an action that invokes the same trigger, this can lead to infinite loops. Use the RECURSIVE_TRIGGERS option carefully.
+  - Monitor Trigger Impact on Performance: Triggers can introduce performance overhead, especially with large transactions.
+  - Test Thoroughly: Ensure triggers are properly tested, as they can impact application functionality if they inadvertently modify data or rollback transactions.
+  - Limit Usage: Triggers are powerful but can make debugging and understanding the flow of data difficult. Consider alternatives like stored procedures or application-level logic for complex business rules.
+  - Events vs. Triggers  
+    - Triggers are ideal for capturing data changes at the table level and enforcing data integrity rules automatically, while events (using Extended Events or SQL Server Agent) are more suited for monitoring database performance, capturing server-wide occurrences, and handling automated administrative tasks.
+    - SQL Server Agent Jobs and Alerts are complementary tools to automate routine tasks or notify administrators of critical events, but they work asynchronously and are less granular compared to triggers.  
+  
 These tools offer flexibility for managing database logic and performance, and their proper use can greatly enhance the responsiveness, auditability, and robustness of a SQL Server system. Let me know if you'd like to dive further into any specific use case or configuration!
 
 > ### You said:
@@ -1866,146 +1867,147 @@ Window functions, aggregate functions
 #### ChatGPT
 Window functions and aggregate functions are both powerful tools in SQL Server, but they serve different purposes and provide distinct capabilities. Here’s a deep dive into each, with examples to highlight their unique strengths and applications.
 
-Aggregate Functions
+  ## Aggregate Functions  
 Aggregate functions perform calculations on a set of values and return a single summary result, such as a sum, average, or count. They’re commonly used in conjunction with the GROUP BY clause to summarize data across multiple rows.
 
-Common Aggregate Functions
-SUM(): Returns the total sum of a numeric column.
-AVG(): Returns the average value of a numeric column.
-MIN() and MAX(): Return the minimum or maximum value in a column, respectively.
-COUNT(): Returns the number of rows that match the specified criteria.
-COUNT(DISTINCT column): Counts the number of unique values in a column.
-Examples of Aggregate Functions
-SUM and COUNT: Total sales and count of orders per customer.
+  - Common Aggregate Functions
+    - SUM(): Returns the total sum of a numeric column.
+    - AVG(): Returns the average value of a numeric column.
+    - MIN() and MAX(): Return the minimum or maximum value in a column, respectively.
+    - COUNT(): Returns the number of rows that match the specified criteria.
+    - COUNT(DISTINCT column): Counts the number of unique values in a column.
+  - Examples of Aggregate Functions
+    - SUM and COUNT: Total sales and count of orders per customer.
 
-```sql
-Copy code
-SELECT CustomerID, 
-       SUM(OrderAmount) AS TotalSales,
-       COUNT(OrderID) AS TotalOrders
-FROM Orders
-GROUP BY CustomerID;
-```
-AVG and MAX: Average and maximum salary per department.
+      ```sql
+      Copy code
+      SELECT CustomerID, 
+             SUM(OrderAmount) AS TotalSales,
+             COUNT(OrderID) AS TotalOrders
+      FROM Orders
+      GROUP BY CustomerID;
+      ```
+    - AVG and MAX: Average and maximum salary per department.
 
-```sql
-Copy code
-SELECT DepartmentID,
-       AVG(Salary) AS AverageSalary,
-       MAX(Salary) AS MaxSalary
-FROM Employees
-GROUP BY DepartmentID;
-```
-Window Functions
+      ```sql
+      Copy code
+      SELECT DepartmentID,
+             AVG(Salary) AS AverageSalary,
+             MAX(Salary) AS MaxSalary
+      FROM Employees
+      GROUP BY DepartmentID;
+      ```
+  ## Window Functions
 Window functions perform calculations across a set of rows related to the current row, and unlike aggregate functions, they do not collapse multiple rows into one. Instead, they provide a result for each row within the "window" or defined set of rows. Window functions are powerful for analytical queries, especially when working with rankings, running totals, and moving averages.
 
-Common Window Functions
-ROW_NUMBER(): Assigns a unique sequential integer to rows within a partition of a result set.
-RANK() and DENSE_RANK(): Assign ranks to rows within a partition, with different handling of ties.
-NTILE(n): Divides rows into n roughly equal groups and assigns each row a number from 1 to n.
-SUM() OVER, AVG() OVER: Aggregate functions can be used as window functions by using the OVER() clause to define a window or frame for the calculation.
-Syntax of Window Functions
-The syntax for window functions generally follows this format:
+  - Common Window Functions
+    - ROW_NUMBER(): Assigns a unique sequential integer to rows within a partition of a result set.
+    - RANK() and DENSE_RANK(): Assign ranks to rows within a partition, with different handling of ties.
+    - NTILE(n): Divides rows into n roughly equal groups and assigns each row a number from 1 to n.
+    - SUM() OVER, AVG() OVER: Aggregate functions can be used as window functions by using the OVER() clause to define a window or frame for the calculation.
+  - Syntax of Window Functions
+    The syntax for window functions generally follows this format:
 
-```sql
-Copy code
-<window_function>() OVER (
-    [PARTITION BY column(s)]
-    [ORDER BY column(s)]
-    [ROWS or RANGE BETWEEN frame_start AND frame_end]
-)
-```
-PARTITION BY: Defines the subsets (partitions) within which the window function operates.
-ORDER BY: Specifies the order of rows within each partition.
-ROWS/RANGE: Defines a specific frame for the window function to operate on, such as "current row and 3 following rows."
-Examples of Window Functions
-ROW_NUMBER(): Sequentially numbering rows within a partition.
+    ```sql
+    Copy code
+    <window_function>() OVER (
+        [PARTITION BY column(s)]
+        [ORDER BY column(s)]
+        [ROWS or RANGE BETWEEN frame_start AND frame_end]
+    )
+    ```
+    - PARTITION BY: Defines the subsets (partitions) within which the window function operates.
+    - ORDER BY: Specifies the order of rows within each partition.
+    - ROWS/RANGE: Defines a specific frame for the window function to operate on, such as "current row and 3 following rows."
+    - Examples of Window Functions
+      - ROW_NUMBER(): Sequentially numbering rows within a partition.
 
-```sql
-Copy code
-SELECT EmployeeID, 
-       DepartmentID,
-       Salary,
-       ROW_NUMBER() OVER (PARTITION BY DepartmentID ORDER BY Salary DESC) AS RowNum
-FROM Employees;
-```
-Here, each row in a department gets a unique number based on its salary rank within that department.
+        ```sql
+        Copy code
+        SELECT EmployeeID, 
+               DepartmentID,
+               Salary,
+               ROW_NUMBER() OVER (PARTITION BY DepartmentID ORDER BY Salary DESC) AS RowNum
+        FROM Employees;
+        ```
+      Here, each row in a department gets a unique number based on its salary rank within that department.
 
-RANK(): Ranking rows based on salary, with ties receiving the same rank.
+      - RANK(): Ranking rows based on salary, with ties receiving the same rank.
 
-```sql
-Copy code
-SELECT EmployeeID,
-       DepartmentID,
-       Salary,
-       RANK() OVER (PARTITION BY DepartmentID ORDER BY Salary DESC) AS SalaryRank
-FROM Employees;
-```
-Running Total with SUM() OVER: Running total of sales for each customer in order of sales date.
+        ```sql
+        Copy code
+        SELECT EmployeeID,
+               DepartmentID,
+               Salary,
+               RANK() OVER (PARTITION BY DepartmentID ORDER BY Salary DESC) AS SalaryRank
+        FROM Employees;
+        ```
+      - Running Total with SUM() OVER: Running total of sales for each customer in order of sales date.
 
-```sql
-Copy code
-SELECT CustomerID, 
-       OrderDate,
-       OrderAmount,
-       SUM(OrderAmount) OVER (PARTITION BY CustomerID ORDER BY OrderDate) AS RunningTotal
-FROM Orders
-ORDER BY CustomerID, OrderDate;
-```
-Moving Average with AVG() OVER: Calculate a 3-month moving average of sales.
+        ```sql
+        Copy code
+        SELECT CustomerID, 
+               OrderDate,
+               OrderAmount,
+               SUM(OrderAmount) OVER (PARTITION BY CustomerID ORDER BY OrderDate) AS RunningTotal
+        FROM Orders
+        ORDER BY CustomerID, OrderDate;
+        ```
+      - Moving Average with AVG() OVER: Calculate a 3-month moving average of sales.
 
-```sql
-Copy code
-SELECT OrderDate, 
-       OrderAmount,
-       AVG(OrderAmount) OVER (ORDER BY OrderDate ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS MovingAvg
-FROM Sales;
-```
-Comparing Aggregate and Window Functions
+        ```sql
+        Copy code
+        SELECT OrderDate, 
+               OrderAmount,
+               AVG(OrderAmount) OVER (ORDER BY OrderDate ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS MovingAvg
+        FROM Sales;
+        ```
+### Comparing Aggregate and Window Functions  
 While aggregate functions with GROUP BY reduce rows, window functions keep the full row count, providing more flexibility for analytics and reporting. Here’s a scenario to illustrate the difference:
 
-Aggregate with GROUP BY: Summing total sales per customer reduces the result to one row per customer.
+  - Aggregate with GROUP BY: Summing total sales per customer reduces the result to one row per customer.
 
-```sql
-Copy code
-SELECT CustomerID, 
-       SUM(OrderAmount) AS TotalSales
-FROM Orders
-GROUP BY CustomerID;
-```
-SUM() OVER with Window Functions: Summing total sales per customer for each order record keeps each order but adds a cumulative total column.
+    ```sql
+    Copy code
+    SELECT CustomerID, 
+           SUM(OrderAmount) AS TotalSales
+    FROM Orders
+    GROUP BY CustomerID;
+    ```
+  - SUM() OVER with Window Functions: Summing total sales per customer for each order record keeps each order but adds a cumulative total column.
 
-```sql
-Copy code
-SELECT CustomerID, 
-       OrderID,
-       OrderAmount,
-       SUM(OrderAmount) OVER (PARTITION BY CustomerID) AS TotalSalesPerCustomer
-FROM Orders;
-```
-This returns each order row with a running total of sales by customer.
+    ```sql
+    Copy code
+    SELECT CustomerID, 
+           OrderID,
+           OrderAmount,
+           SUM(OrderAmount) OVER (PARTITION BY CustomerID) AS TotalSalesPerCustomer
+    FROM Orders;
+    ```
+    This returns each order row with a running total of sales by customer.
 
-Advanced Windowing Clauses
+### Advanced Windowing Clauses
 ROWS BETWEEN and RANGE BETWEEN:
 
 These clauses allow you to define the exact frame for a calculation within a window.
-ROWS BETWEEN: Calculates the frame based on a specific number of rows relative to the current row.
-RANGE BETWEEN: Calculates the frame based on value ranges, useful when dealing with dates or other continuous data.
-```sql
-Copy code
-SELECT EmployeeID,
-       Salary,
-       AVG(Salary) OVER (ORDER BY Salary ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS AvgSalary
-FROM Employees;
-```
+  - ROWS BETWEEN: Calculates the frame based on a specific number of rows relative to the current row.
+  - RANGE BETWEEN: Calculates the frame based on value ranges, useful when dealing with dates or other continuous data.
+    ```sql
+    Copy code
+    SELECT EmployeeID,
+           Salary,
+           AVG(Salary) OVER (ORDER BY Salary ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS AvgSalary
+    FROM Employees;
+    ```
 This example calculates the average salary based on the current row and the two preceding rows.
 
-Practical Applications of Window Functions
-Ranked Listings: List top N products or customers by sales in each region.
-Running Totals: Calculate cumulative sales over time.
-Moving Averages: Useful for smoothing data, such as sales trends.
-Percentile Calculations: Use PERCENT_RANK() and CUME_DIST() to analyze data distribution.
-Windowed Aggregates in Reports: Window functions are very useful in reporting and dashboards, where you need to calculate totals or ranks but retain individual rows.
+### Practical Applications of Window Functions
+  - Ranked Listings: List top N products or customers by sales in each region.
+  - Running Totals: Calculate cumulative sales over time.
+  - Moving Averages: Useful for smoothing data, such as sales trends.
+  - Percentile Calculations: Use PERCENT_RANK() and CUME_DIST() to analyze data distribution.
+  - Windowed Aggregates in Reports: Window functions are very useful in reporting and dashboards, where you need to calculate totals or ranks but retain individual rows.  
+  
 Both aggregate functions and window functions are critical for data analysis in SQL Server. Aggregate functions provide basic summarization, while window functions open up more complex analytical capabilities, especially when combined with the powerful PARTITION BY and ORDER BY clauses within the windowing construct. Together, they enable SQL Server developers to perform a wide range of data transformations and calculations efficiently.
 
 > ### You said:
@@ -2049,66 +2051,66 @@ forkJoin is an RxJS operator that combines multiple observables and emits the la
   - In this example, forkJoin will wait for all three HTTP requests to complete. If they succeed, it will log the response of each in an array; if any of them fail, the error handler will trigger.
 
   - Other RxJS Combination Operators
-    - combineLatest: Combines multiple observables and emits whenever any of the input observables emits a new value. This is useful when you want an output every time any observable changes and the output depends on the latest values of all observables.
+    - *combineLatest*: Combines multiple observables and emits whenever any of the input observables emits a new value. This is useful when you want an output every time any observable changes and the output depends on the latest values of all observables.
 
-```typescript
-Copy code
-import { combineLatest } from 'rxjs';
+      ```typescript
+      Copy code
+      import { combineLatest } from 'rxjs';
 
-const obs1 = this.http.get('https://api.example.com/data1');
-const obs2 = this.http.get('https://api.example.com/data2');
+      const obs1 = this.http.get('https://api.example.com/data1');
+      const obs2 = this.http.get('https://api.example.com/data2');
 
-combineLatest([obs1, obs2]).subscribe(([data1, data2]) => {
-  console.log('Latest data:', data1, data2);
-});
-```
-When to use: Use combineLatest when you want updates each time one of the observables emits a new value, rather than waiting for all of them to complete.
+      combineLatest([obs1, obs2]).subscribe(([data1, data2]) => {
+        console.log('Latest data:', data1, data2);
+      });
+      ```
+      - When to use: Use combineLatest when you want updates each time one of the observables emits a new value, rather than waiting for all of them to complete.
 
-merge: Merges multiple observables into one, emitting values as they occur from each input observable. It doesn’t wait for completion of any observable.
+    - *merge*: Merges multiple observables into one, emitting values as they occur from each input observable. It doesn’t wait for completion of any observable.
 
-```typescript
-Copy code
-import { merge } from 'rxjs';
+      ```typescript
+      Copy code
+      import { merge } from 'rxjs';
 
-merge(obs1, obs2).subscribe(data => {
-  console.log('Merged data:', data);
-});
-```
-When to use: Use merge when you want to combine observables and get outputs as soon as each one emits a value.
+      merge(obs1, obs2).subscribe(data => {
+        console.log('Merged data:', data);
+      });
+      ```
+      - When to use: Use merge when you want to combine observables and get outputs as soon as each one emits a value.
 
-concat: Concatenates multiple observables and emits values sequentially. It waits for the first observable to complete before starting the next one.
+    - *concat*: Concatenates multiple observables and emits values sequentially. It waits for the first observable to complete before starting the next one.
 
-```typescript
-Copy code
-import { concat } from 'rxjs';
+      ```typescript
+      Copy code
+      import { concat } from 'rxjs';
 
-concat(obs1, obs2).subscribe(data => {
-  console.log('Sequential data:', data);
-});
-```
-When to use: Use concat when you need the observables to complete one by one, in sequence.
+      concat(obs1, obs2).subscribe(data => {
+        console.log('Sequential data:', data);
+      });
+      ```
+      - When to use: Use concat when you need the observables to complete one by one, in sequence.
 
-zip: Combines multiple observables and emits only when each observable has emitted at least one value, combining them into an array or object as specified.
+    - *zip*: Combines multiple observables and emits only when each observable has emitted at least one value, combining them into an array or object as specified.
 
-```typescript
-Copy code
-import { zip } from 'rxjs';
+      ```typescript
+      Copy code
+      import { zip } from 'rxjs';
 
-zip(obs1, obs2).subscribe(([data1, data2]) => {
-  console.log('Zipped data:', data1, data2);
-});
-```
-When to use: Use zip when you want to combine values by "pairing" them and emitting a new value only when each observable has emitted.
+      zip(obs1, obs2).subscribe(([data1, data2]) => {
+        console.log('Zipped data:', data1, data2);
+      });
+      ```
+      - When to use: Use zip when you want to combine values by "pairing" them and emitting a new value only when each observable has emitted.
 
-Choosing the Right Operator
+- Choosing the Right Operator
 Each operator serves a specific purpose in handling multiple observables:
 
-forkJoin: Best for waiting on multiple async tasks to finish (like parallel HTTP calls).
-combineLatest: Useful when you need real-time combination of observables, such as showing the latest values from multiple sources.
-merge: Use when order is not essential, and you want to handle emissions from multiple sources as they come.
-concat: Good for sequential tasks where one operation should complete before starting the next.
-zip: Ideal for combining observables in pairs, especially for scenarios where you need each observable’s values to match one another (e.g., matching IDs).
-Real-World Use Case
+  - forkJoin: Best for waiting on multiple async tasks to finish (like parallel HTTP calls).
+  - combineLatest: Useful when you need real-time combination of observables, such as showing the latest values from multiple sources.
+  - merge: Use when order is not essential, and you want to handle emissions from multiple sources as they come.
+  - concat: Good for sequential tasks where one operation should complete before starting the next.
+  - zip: Ideal for combining observables in pairs, especially for scenarios where you need each observable’s values to match one another (e.g., matching IDs).
+- Real-World Use Case
 Imagine a dashboard that shows user details and their activity feed, both of which come from different APIs. You could use forkJoin if you need both sets of data before displaying the dashboard or combineLatest if you want to update the dashboard in real-time whenever the user details or activity changes.
 
 ```typescript
