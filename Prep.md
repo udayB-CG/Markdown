@@ -1718,29 +1718,27 @@ Events and triggers in SQL Server are powerful tools for managing and automating
 1. ## Events in SQL Server
 While SQL Server doesn’t have a direct "event" system like application programming environments, there are several ways to handle and respond to events:
 
-  - Extended Events (XE):
-
-SQL Server Extended Events is a lightweight performance monitoring system that allows you to capture information about server and database events.
-It can be used for auditing, performance monitoring, troubleshooting, and capturing detailed query execution data.
+  - Extended Events (XE):  
+  SQL Server Extended Events is a lightweight performance monitoring system that allows you to capture information about server and database events.
+  It can be used for auditing, performance monitoring, troubleshooting, and capturing detailed query execution data.
   - Components:
     - Event: An action, such as a SQL query starting or a disk I/O operation.
     - Session: A collection of events with configurations (like filters and data storage options) that run independently.
       - Example Usage:
-        Monitor slow queries or high CPU usage.
-        Capture events for troubleshooting long-running queries or deadlocks.
-```sql
-Copy code
-CREATE EVENT SESSION MonitorCPUUsage
-ON SERVER
-ADD EVENT sqlserver.sql_statement_completed
-WHERE cpu_time > 5000
-ADD TARGET package0.event_file (SET filename = 'C:\Temp\CPUEvents.xel');
-```
-SQL Server Agent Alerts and Jobs:
-
+        - Monitor slow queries or high CPU usage.
+        - Capture events for troubleshooting long-running queries or deadlocks.
+          ```sql
+          Copy code
+          CREATE EVENT SESSION MonitorCPUUsage
+          ON SERVER
+          ADD EVENT sqlserver.sql_statement_completed
+          WHERE cpu_time > 5000
+          ADD TARGET package0.event_file (SET filename = 'C:\Temp\CPUEvents.xel');
+          ```
+  - SQL Server Agent Alerts and Jobs:  
 SQL Server Agent allows you to set up automated alerts and jobs in response to events such as high CPU usage, disk space issues, or specific error codes.
-Alerts: Triggers notifications (e.g., email, Net Send) based on SQL Server errors, performance conditions, or WMI events.
-Jobs: Automates actions in response to an event, such as backing up a database, running a script, or notifying an administrator.
+  - Alerts: Triggers notifications (e.g., email, Net Send) based on SQL Server errors, performance conditions, or WMI events.
+  - Jobs: Automates actions in response to an event, such as backing up a database, running a script, or notifying an administrator.
 ```sql
 Copy code
 -- Setting up an alert for SQL Server Agent
@@ -1751,73 +1749,73 @@ EXEC msdb.dbo.sp_add_alert
   @enabled = 1,
   @delay_between_responses = 300;
 ```
-2. Triggers in SQL Server
+2. ## Triggers in SQL Server
 Triggers are special types of stored procedures that automatically run when specific events (such as INSERT, UPDATE, or DELETE actions) occur on a table or view. They’re useful for enforcing business rules, auditing, and maintaining data integrity.
 
-Types of Triggers
-DML Triggers (Data Manipulation Language):
+  - Types of Triggers
+    - DML Triggers (Data Manipulation Language):
 
-AFTER Triggers (default): Execute after a INSERT, UPDATE, or DELETE statement has completed.
-INSTEAD OF Triggers: Execute in place of an INSERT, UPDATE, or DELETE operation, often used to manage complex view updates.
-DDL Triggers (Data Definition Language):
+      - AFTER Triggers (default): Execute after a INSERT, UPDATE, or DELETE statement has completed.
+      - INSTEAD OF Triggers: Execute in place of an INSERT, UPDATE, or DELETE operation, often used to manage complex view updates.
+    - DDL Triggers (Data Definition Language):
 
-Fire in response to database schema changes (e.g., CREATE TABLE, ALTER TABLE).
-Useful for tracking or restricting schema changes for security and auditing.
-LOGON Triggers:
+      - Fire in response to database schema changes (e.g., CREATE TABLE, ALTER TABLE).
+      - Useful for tracking or restricting schema changes for security and auditing.
+    - LOGON Triggers:
 
-Execute when a user session is established in SQL Server.
-Useful for tracking logins or enforcing login restrictions, like limiting access based on time or IP.
-DML Trigger Examples
-AFTER INSERT Trigger: Automatically logs new records inserted into a table.
+      - Execute when a user session is established in SQL Server.
+      - Useful for tracking logins or enforcing login restrictions, like limiting access based on time or IP.
+    - DML Trigger Examples
+      - AFTER INSERT Trigger: Automatically logs new records inserted into a table.
 
-```sql
-Copy code
-CREATE TRIGGER trg_AfterInsert 
-ON Employees
-AFTER INSERT
-AS
-BEGIN
-    INSERT INTO AuditLog (ActionType, ActionTime, UserID)
-    SELECT 'INSERT', GETDATE(), UserID
-    FROM INSERTED;
-END;
-AFTER UPDATE Trigger: Tracks changes made to an employee’s salary.
-```
+        ```sql
+        Copy code
+        CREATE TRIGGER trg_AfterInsert 
+        ON Employees
+        AFTER INSERT
+        AS
+        BEGIN
+            INSERT INTO AuditLog (ActionType, ActionTime, UserID)
+            SELECT 'INSERT', GETDATE(), UserID
+            FROM INSERTED;
+        END;
+        ```
+      - AFTER UPDATE Trigger: Tracks changes made to an employee’s salary.
 
-```sql
-Copy code
-CREATE TRIGGER trg_AfterUpdate
-ON Employees
-AFTER UPDATE
-AS
-BEGIN
-    IF UPDATE(Salary)
-    BEGIN
-        INSERT INTO AuditLog (EmployeeID, OldSalary, NewSalary, ChangeDate)
-        SELECT 
-            d.EmployeeID, 
-            d.Salary AS OldSalary, 
-            i.Salary AS NewSalary,
-            GETDATE()
-        FROM DELETED d
-        JOIN INSERTED i ON d.EmployeeID = i.EmployeeID;
-    END;
-END;
-INSTEAD OF DELETE Trigger: Redirects delete attempts on a view to a different action.
-```
+        ```sql
+        Copy code
+        CREATE TRIGGER trg_AfterUpdate
+        ON Employees
+        AFTER UPDATE
+        AS
+        BEGIN
+            IF UPDATE(Salary)
+            BEGIN
+                INSERT INTO AuditLog (EmployeeID, OldSalary, NewSalary, ChangeDate)
+                SELECT 
+                    d.EmployeeID, 
+                    d.Salary AS OldSalary, 
+                    i.Salary AS NewSalary,
+                    GETDATE()
+                FROM DELETED d
+                JOIN INSERTED i ON d.EmployeeID = i.EmployeeID;
+            END;
+        END;
+        ```
+      - INSTEAD OF DELETE Trigger: Redirects delete attempts on a view to a different action.
 
-```sql
-Copy code
-CREATE TRIGGER trg_InsteadOfDelete
-ON EmployeesView
-INSTEAD OF DELETE
-AS
-BEGIN
-    RAISERROR ('Deletion is not allowed on this view.', 16, 1);
-END;
-```
-DDL Trigger Example
-Track Database Schema Changes: Captures all changes made to table structures and records them in an audit table.
+        ```sql
+        Copy code
+        CREATE TRIGGER trg_InsteadOfDelete
+        ON EmployeesView
+        INSTEAD OF DELETE
+        AS
+        BEGIN
+            RAISERROR ('Deletion is not allowed on this view.', 16, 1);
+        END;
+        ```
+    - DDL Trigger Example
+      - Track Database Schema Changes: Captures all changes made to table structures and records them in an audit table.
 
 ```sql
 Copy code
