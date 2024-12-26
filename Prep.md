@@ -623,8 +623,9 @@ For some applications, relational databases may not be the best choice, especial
   - Scalability: NoSQL databases often scale horizontally better than relational databases, making them suitable for applications with high data volume or high request rates.
   - Rapid Development: NoSQL databases can make development faster in scenarios where strict schema adherence is not necessary.
   - Example Use Case:
-    For a social media application with user-generated content, you might choose to store posts and comments in a document-based NoSQL database like MongoDB, while still using SQL Server for structured user data.
-1. ## Caching Strategy
+    For a social media application with user-generated content, you might choose to store posts and comments in a document-based NoSQL database like MongoDB, while still using SQL Server for structured user data.  
+
+4. ## Caching Strategy
 For data-driven applications, caching is critical for performance, particularly when dealing with frequently accessed data. ASP.NET Core integrates well with Redis or in-memory caching for quick data retrieval.
 
   - Caching Options:
@@ -815,30 +816,32 @@ Templates:
 
 Angular uses HTML templates with interpolation (e.g., {{variable}}), property binding ([property]="value"), and event binding ((event)="handler()") to display dynamic data and interact with user inputs.
 Structural Directives (*ngIf, *ngFor) modify the DOM structure, and Attribute Directives (like [ngClass], [ngStyle]) apply classes or styles based on conditions.
-  ### Services and Dependency Injection (DI):
+  - ### Services and Dependency Injection (DI):
 
 Services are singleton classes used for sharing data, logic, and APIs across components.
 Angular’s DI system allows you to inject dependencies (such as services) into components and other services, promoting reusable and modular code.
 Services are typically provided at the root level, making them available throughout the app, but can also be provided at the module or component level.
-  ### Routing:
+  - ### Routing:
 
 Angular’s Router is responsible for navigation between views or pages, allowing you to set up different URLs for different views.
-Routing configuration includes Route Guards like CanActivate and CanDeactivate, which control access based on conditions (e.g., authentication).
+Routing configuration includes Route Guards like CanActivate and CanDeactivate, which control access based on conditions (e.g., authentication).  
+
 2. ## Angular Architecture
-  ### Component-Based Architecture:
+  - ### Component-Based Architecture:
 
 Angular’s architecture is component-based, focusing on reusability and modularity. Components encapsulate their own templates, logic, and styles, which allows for better code management and reusability.
-  ### Data Binding:
+  - ### Data Binding:
 
-  - One-Way Data Binding: Data flows from the component class to the template. Angular primarily uses one-way data binding (e.g., {{}} interpolation, [property] bindings).
-  - Two-Way Data Binding: Data flows between the component class and template synchronously. Achieved with [(ngModel)], two-way binding is particularly useful in forms and interactive components.
-  ### Change Detection:
+    - One-Way Data Binding: Data flows from the component class to the template. Angular primarily uses one-way data binding (e.g., {{}} interpolation, [property] bindings).
+    - Two-Way Data Binding: Data flows between the component class and template synchronously. Achieved with [(ngModel)], two-way binding is particularly useful in forms and interactive components.
+  - ### Change Detection:
 
 Angular has a built-in Change Detection mechanism that updates the view whenever data in the component changes. By default, Angular uses a zone-based approach, detecting changes every time an asynchronous event occurs (e.g., HTTP response, user input).
-  - OnPush Change Detection: For performance optimization, Angular allows OnPush change detection strategy. This is useful when components rely only on immutable data or observables, reducing the need for frequent checks.
-  ### Services and DI Architecture:
+    - OnPush Change Detection: For performance optimization, Angular allows OnPush change detection strategy. This is useful when components rely only on immutable data or observables, reducing the need for frequent checks.
+  - ### Services and DI Architecture:
 
-Services allow Angular applications to be modular and follow the separation of concerns principle. The DI framework in Angular provides services at different scopes, ensuring components don’t manage logic directly.
+Services allow Angular applications to be modular and follow the separation of concerns principle. The DI framework in Angular provides services at different scopes, ensuring components don’t manage logic directly.  
+
 3. ## Angular CLI (Command Line Interface)
 The Angular CLI is a powerful tool that helps in managing and automating tasks like project setup, component generation, and builds.
   - Commands:
@@ -917,13 +920,14 @@ In large applications, this can significantly boost performance.
   - Lazy Load Images and Minify Assets:
 Use Angular's tools or plugins to lazy-load images and minify CSS/JavaScript files to optimize loading time.
 9. ## Angular Material and Styling
-  ### Angular Material:
+  - ### Angular Material:
 Angular Material is a UI component library that follows Google’s Material Design. It includes components like forms, navigation, and buttons that make creating visually consistent and responsive applications easier.
-Styling Best Practices:
-Encapsulation: By default, Angular uses view encapsulation to scope CSS to a particular component.
-Responsive Design: Use Angular Material’s grid system or CSS Flexbox/Grid for responsive designs.
-Theming: Angular Material’s theming system allows you to define custom color palettes and apply dark or light themes.
-Angular’s extensive feature set, combined with best practices in structure, security, performance, and testing, makes it a solid choice for
+  - ### Styling Best Practices:
+    - Encapsulation: By default, Angular uses view encapsulation to scope CSS to a particular component.
+    - Responsive Design: Use Angular Material’s grid system or CSS Flexbox/Grid for responsive designs.
+    - Theming: Angular Material’s theming system allows you to define custom color palettes and apply dark or light themes.
+
+  - Angular’s extensive feature set, combined with best practices in structure, security, performance, and testing, makes it a solid choice for
 
 > ### You said:
 Let's talk data sharing between components and life cycle hooks
@@ -1015,102 +1019,109 @@ Angular provides multiple ways to share data between components, depending on th
 ## Lifecycle Hooks in Angular
 Angular components have a series of lifecycle hooks that give control over the component at different stages of its lifecycle, from creation to destruction. Each hook corresponds to a specific moment in the component's lifecycle.
 
-ngOnChanges (OnChanges interface)
+  - ngOnChanges (OnChanges interface)
 
-Triggered: Whenever an input-bound property changes.
-Use Case: Detect and act upon changes to @Input() properties. Useful for updating the component whenever the parent’s data changes.
-Example:
-```typescript
-Copy code
-ngOnChanges(changes: SimpleChanges) {
-  console.log('Input property changed:', changes);
-}
-ngOnInit (OnInit interface)
-```
-Triggered: Once after the first ngOnChanges. It’s called after Angular has initialized all data-bound properties.
-Use Case: Perform component initialization, like fetching data or setting up local properties.
-Example:
-```typescript
-Copy code
-ngOnInit() {
-  console.log('Component initialized');
-}
-ngDoCheck (DoCheck interface)
-```
-Triggered: During every change detection run.
-Use Case: Manually check for changes not detected by Angular’s default change detection.
-Example:
-```typescript
-Copy code
-ngDoCheck() {
-  console.log('Change detection triggered');
-}
-ngAfterContentInit (AfterContentInit interface)
-```
-Triggered: Once after Angular has projected external content into the component’s view (i.e., after <ng-content>).
-Use Case: Act upon projected content initialization.
-Example:
-```typescript
-Copy code
-ngAfterContentInit() {
-  console.log('Projected content initialized');
-}
-ngAfterContentChecked (AfterContentChecked interface)
-```
-Triggered: After each check of projected content.
-Use Case: Respond to changes in the projected content during change detection.
-Example:
-```typescript
-Copy code
-ngAfterContentChecked() {
-  console.log('Projected content checked');
-}
-ngAfterViewInit (AfterViewInit interface)
-```
-Triggered: Once after the component’s view and its children have been initialized.
-Use Case: Access and perform operations on view children.
-Example:
-```typescript
-Copy code
-ngAfterViewInit() {
-  console.log('View initialized');
-}
-ngAfterViewChecked (AfterViewChecked interface)
-```
-Triggered: After each check of the component’s view and child views.
-Use Case: Respond to changes in the view or child views after every change detection cycle.
-Example:
-```typescript
-Copy code
-ngAfterViewChecked() {
-  console.log('View checked');
-}
-ngOnDestroy (OnDestroy interface)
-```
-Triggered: Right before Angular destroys the component.
-Use Case: Cleanup before the component is removed, such as unsubscribing from observables or detaching event handlers to prevent memory leaks.
-Example:
-```typescript
-Copy code
-ngOnDestroy() {
-  console.log('Component destroyed');
-}
-```
-Best Practices for Using Lifecycle Hooks
-Initialize Data in ngOnInit:
+    - Triggered: Whenever an input-bound property changes.
+    - Use Case: Detect and act upon changes to @Input() properties. Useful for updating the component whenever the parent’s data changes.
+      - Example:
+        ```typescript
+        Copy code
+        ngOnChanges(changes: SimpleChanges) {
+          console.log('Input property changed:', changes);
+        }
+        ```
+  - ngOnInit (OnInit interface)
+
+    - Triggered: Once after the first ngOnChanges. It’s called after Angular has initialized all data-bound properties.
+    - Use Case: Perform component initialization, like fetching data or setting up local properties.
+    - Example:
+      ```typescript
+      Copy code
+      ngOnInit() {
+        console.log('Component initialized');
+      }
+      ```
+  - ngDoCheck (DoCheck interface)
+
+    - Triggered: During every change detection run.
+    - Use Case: Manually check for changes not detected by Angular’s default change detection.
+    - Example:
+      ```typescript
+      Copy code
+      ngDoCheck() {
+        console.log('Change detection triggered');
+      }
+      ```
+  - ngAfterContentInit (AfterContentInit interface)
+
+    - Triggered: Once after Angular has projected external content into the component’s view (i.e., after <ng-content>).
+    - Use Case: Act upon projected content initialization.
+    - Example:
+      ```typescript
+      Copy code
+      ngAfterContentInit() {
+        console.log('Projected content initialized');
+      }
+      ```
+  - ngAfterContentChecked (AfterContentChecked interface)
+
+    - Triggered: After each check of projected content.
+    - Use Case: Respond to changes in the projected content during change detection.
+    - Example:
+      ```typescript
+      Copy code
+      ngAfterContentChecked() {
+        console.log('Projected content checked');
+      }
+      ```
+  - ngAfterViewInit (AfterViewInit interface)
+
+    - Triggered: Once after the component’s view and its children have been initialized.
+    - Use Case: Access and perform operations on view children.
+    - Example:
+    ```typescript
+    Copy code
+    ngAfterViewInit() {
+      console.log('View initialized');
+    }
+    ```
+  - ngAfterViewChecked (AfterViewChecked interface)
+
+    - Triggered: After each check of the component’s view and child views.
+    - Use Case: Respond to changes in the view or child views after every change detection cycle.
+    - Example:
+      ```typescript
+      Copy code
+      ngAfterViewChecked() {
+        console.log('View checked');
+      }
+      ```
+  - ngOnDestroy (OnDestroy interface)
+
+    - Triggered: Right before Angular destroys the component.
+    - Use Case: Cleanup before the component is removed, such as unsubscribing from observables or detaching event handlers to prevent memory leaks.
+    - Example:
+      ```typescript
+      Copy code
+      ngOnDestroy() {
+      console.log('Component destroyed');
+      }
+    ```
+## Best Practices for Using Lifecycle Hooks
+  - Initialize Data in ngOnInit:
 
 Use ngOnInit for setup logic and avoid using the constructor for heavy operations, as constructors are primarily for dependency injection.
-Use ngOnChanges for Input-bound Properties:
+  - Use ngOnChanges for Input-bound Properties:
 
 When the component relies heavily on @Input() values, use ngOnChanges to handle updates whenever input properties change.
-Optimize Change Detection with OnPush Strategy:
+  - Optimize Change Detection with OnPush Strategy:
 
 If you’re implementing complex checks in ngDoCheck, consider using Angular’s OnPush change detection strategy to improve performance.
-Cleanup with ngOnDestroy:
+  - Cleanup with ngOnDestroy:
 
 Always unsubscribe from observables and detach event listeners in ngOnDestroy to prevent memory leaks, especially in large applications.
 Examples of Data Sharing with Lifecycle Hooks
-Updating Data on Input Changes:
+  - Updating Data on Input Changes:
 
 ```typescript
 Copy code
@@ -1121,7 +1132,7 @@ ngOnChanges(changes: SimpleChanges) {
   }
 }
 ```
-Using ngAfterViewInit for ViewChild:
+  - Using ngAfterViewInit for ViewChild:
 
 ```typescript
 Copy code
@@ -1131,7 +1142,7 @@ ngAfterViewInit() {
   this.inputElement.nativeElement.focus();
 }
 ```
-Service Subscription Management with ngOnDestroy:
+  - Service Subscription Management with ngOnDestroy:
 
 ```typescript
 Copy code
@@ -1153,195 +1164,202 @@ Let's talk observable, subjects, and similars
 #### ChatGPT
 In Angular, Observables, Subjects, and similar reactive constructs are essential for handling asynchronous data streams and event-based programming. They allow you to manage data flow effectively, especially when dealing with data sharing across components, HTTP requests, and real-time data updates. Here’s an in-depth look at each and their applications.
 
-1. Observables
+1. ## Observables
 Observables are a core part of RxJS (Reactive Extensions for JavaScript), a library for reactive programming with asynchronous streams. Observables emit values over time, and components or services can "subscribe" to these observables to react to emitted values.
 
-Definition: An Observable is a data producer that pushes data to subscribers (observers) over time.
+  - Definition: An Observable is a data producer that pushes data to subscribers (observers) over time.
 
-Basic Example:
+  - Basic Example:
 
-```typescript
-Copy code
-import { Observable } from 'rxjs';
+    ```typescript
+    Copy code
+    import { Observable } from 'rxjs';
 
-const observable = new Observable((observer) => {
-  observer.next('Hello');
-  observer.next('World');
-  observer.complete();
-});
+    const observable = new Observable((observer) => {
+      observer.next('Hello');
+      observer.next('World');
+      observer.complete();
+    });
 
-observable.subscribe({
-  next: (value) => console.log(value), // Outputs 'Hello' and 'World'
-  complete: () => console.log('Observable completed')
-});
-```
-Common Use Cases:
+    observable.subscribe({
+      next: (value) => console.log(value), // Outputs 'Hello' and 'World'
+      complete: () => console.log('Observable completed')
+    });
+    ```
+  - Common Use Cases:
 
 Handling asynchronous operations like HTTP requests
 Real-time data updates, e.g., user input, sensor data
 Managing UI events, such as clicks or form input
-Operators: RxJS provides operators (e.g., map, filter, debounceTime, switchMap) that allow you to manipulate and transform the data streams. They enable complex logic to be implemented concisely.
+  - Operators: RxJS provides operators (e.g., map, filter, debounceTime, switchMap) that allow you to manipulate and transform the data streams. They enable complex logic to be implemented concisely.
 
-```typescript
-Copy code
-import { fromEvent } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+    ```typescript
+    Copy code
+    import { fromEvent } from 'rxjs';
+    import { debounceTime, map } from 'rxjs/operators';
 
-const clicks$ = fromEvent(document, 'click');
-clicks$.pipe(
-  debounceTime(300),
-  map((event) => `X: ${event.clientX}, Y: ${event.clientY}`)
-).subscribe(console.log);
-```
-2. Subjects
+    const clicks$ = fromEvent(document, 'click');
+    clicks$.pipe(
+      debounceTime(300),
+      map((event) => `X: ${event.clientX}, Y: ${event.clientY}`)
+    ).subscribe(console.log);
+    ```  
+
+2. ## Subjects
 A Subject is a special type of Observable that acts as both an observable and an observer. This means it can be used to produce data (like an observable) and also allow other subscribers to receive data (like an observer). Subjects are often used to multicast events to multiple subscribers.
 
-Definition: A Subject is an observable that allows multiple subscribers to share the same source of data and emits data to all of them simultaneously.
+  - Definition: A Subject is an observable that allows multiple subscribers to share the same source of data and emits data to all of them simultaneously.
 
-Basic Example:
+  - Basic Example:
 
-```typescript
-Copy code
-import { Subject } from 'rxjs';
+    ```typescript
+    Copy code
+    import { Subject } from 'rxjs';
 
-const subject = new Subject<number>();
+    const subject = new Subject<number>();
 
-subject.subscribe((value) => console.log('Subscriber 1:', value));
-subject.subscribe((value) => console.log('Subscriber 2:', value));
+    subject.subscribe((value) => console.log('Subscriber 1:', value));
+    subject.subscribe((value) => console.log('Subscriber 2:', value));
 
-subject.next(1); // Both subscribers receive 1
-subject.next(2); // Both subscribers receive 2
-```
-Common Use Cases:
+    subject.next(1); // Both subscribers receive 1
+    subject.next(2); // Both subscribers receive 2
+    ```
+  - Common Use Cases:
 
 Sharing data among components or services
 Managing UI events that need to be broadcasted across multiple parts of the application
-Implementing custom event systems
-3. BehaviorSubject
+Implementing custom event systems  
+
+3. ## BehaviorSubject
 BehaviorSubject is a specialized Subject that requires an initial value and always emits the latest value to new subscribers. This means that any new subscriber will immediately receive the current value of the BehaviorSubject, not just future values.
 
-Definition: A BehaviorSubject is a Subject with a memory of the latest emitted value, ensuring that new subscribers get the last emitted value upon subscription.
+  - Definition: A BehaviorSubject is a Subject with a memory of the latest emitted value, ensuring that new subscribers get the last emitted value upon subscription.
 
-Basic Example:
+  - Basic Example:
 
-```typescript
-Copy code
-import { BehaviorSubject } from 'rxjs';
+  ```typescript
+  Copy code
+  import { BehaviorSubject } from 'rxjs';
 
-const behaviorSubject = new BehaviorSubject<number>(0); // Initial value of 0
+  const behaviorSubject = new BehaviorSubject<number>(0); // Initial value of 0
 
-behaviorSubject.subscribe((value) => console.log('Subscriber 1:', value));
+  behaviorSubject.subscribe((value) => console.log('Subscriber 1:', value));
 
-behaviorSubject.next(1); // Subscriber 1 receives 1
-behaviorSubject.next(2); // Subscriber 1 receives 2
+  behaviorSubject.next(1); // Subscriber 1 receives 1
+  behaviorSubject.next(2); // Subscriber 1 receives 2
 
-// New subscriber
-behaviorSubject.subscribe((value) => console.log('Subscriber 2:', value)); // Receives 2 immediately
-```
-Common Use Cases:
+  // New subscriber
+  behaviorSubject.subscribe((value) => console.log('Subscriber 2:', value)); // Receives 2 immediately
+  ```
+  - Common Use Cases:
 
 Maintaining a central state or configuration (e.g., user authentication status, theme settings)
 Data that needs to be accessed synchronously (the initial value is required by subscribers immediately)
-Managing UI state across multiple components
-4. ReplaySubject
+Managing UI state across multiple components  
+
+4. ## ReplaySubject
 ReplaySubject is similar to BehaviorSubject but stores a specified number of previous values and replays them to any new subscribers. You can configure how many values it retains, allowing new subscribers to get recent history.
 
-Definition: A ReplaySubject emits a specified number of the latest values to new subscribers, re-emitting a history of values.
+  - Definition: A ReplaySubject emits a specified number of the latest values to new subscribers, re-emitting a history of values.
 
-Basic Example:
+  - Basic Example:
 
-```typescript
-Copy code
-import { ReplaySubject } from 'rxjs';
+    ```typescript
+    Copy code
+    import { ReplaySubject } from 'rxjs';
 
-const replaySubject = new ReplaySubject<number>(2); // Retains the last 2 values
+    const replaySubject = new ReplaySubject<number>(2); // Retains the last 2 values
 
-replaySubject.next(1);
-replaySubject.next(2);
-replaySubject.next(3);
+    replaySubject.next(1);
+    replaySubject.next(2);
+    replaySubject.next(3);
 
-replaySubject.subscribe((value) => console.log('Subscriber:', value)); // Receives 2, 3
-```
-Common Use Cases:
+    replaySubject.subscribe((value) => console.log('Subscriber:', value)); // Receives 2, 3
+    ```
+  - Common Use Cases:
 
 Retaining a history of data for late subscribers (e.g., chat applications where a new user joins and can view recent messages)
-Storing state in scenarios where the latest few values are relevant to new subscribers
-5. AsyncSubject
+Storing state in scenarios where the latest few values are relevant to new subscribers  
+
+5. ## AsyncSubject
 AsyncSubject only emits the last value when the observable completes, and all subscribers receive that final value. It's not commonly used, but it's helpful when only the last result of a sequence is needed.
 
-Definition: An AsyncSubject emits only the last value to subscribers when it completes.
+  - Definition: An AsyncSubject emits only the last value to subscribers when it completes.
 
-Basic Example:
+  - Basic Example:
 
-```typescript
-Copy code
-import { AsyncSubject } from 'rxjs';
+    ```typescript
+    Copy code
+    import { AsyncSubject } from 'rxjs';
 
-const asyncSubject = new AsyncSubject<number>();
+    const asyncSubject = new AsyncSubject<number>();
 
-asyncSubject.subscribe((value) => console.log('Subscriber 1:', value));
+    asyncSubject.subscribe((value) => console.log('Subscriber 1:', value));
 
-asyncSubject.next(1);
-asyncSubject.next(2);
+    asyncSubject.next(1);
+    asyncSubject.next(2);
 
-asyncSubject.subscribe((value) => console.log('Subscriber 2:', value));
+    asyncSubject.subscribe((value) => console.log('Subscriber 2:', value));
 
-asyncSubject.next(3);
-asyncSubject.complete(); // Both subscribers receive 3 upon completion
-```
-Common Use Cases:
+    asyncSubject.next(3);
+    asyncSubject.complete(); // Both subscribers receive 3 upon completion
+    ```
+  - Common Use Cases:
 
-Scenarios where only the final result is relevant, such as caching the outcome of an HTTP request after it's complete
-Scenarios requiring delayed execution until all data is ready
-Comparison and Choosing the Right Option
-Type	Description	Retains Last Value	Use Case
-Observable	Basic stream that can have multiple subscribers.	No	General-purpose stream of asynchronous data
-Subject	Acts as both an observer and an observable.	No	Event broadcasting to multiple subscribers
-BehaviorSubject	Subject that requires an initial value and replays the last value to new subscribers.	Yes	Shared state that needs the latest value for new subscribers (e.g., current user data)
-ReplaySubject	Subject that replays a specified number of past values to new subscribers.	Yes (configurable)	Use when you need to retain a history of events for new subscribers
-AsyncSubject	Only emits the last value upon completion.	Yes (final only)	Use when you need only the final value after all data is processed (e.g., final result cache)
-Practical Use Cases in Angular
-HTTP Data Fetching with Observables
+    - Scenarios where only the final result is relevant, such as caching the outcome of an HTTP request after it's complete
+    - Scenarios requiring delayed execution until all data is ready
+    - Comparison and Choosing the Right Option  
+  
+|Type |Description |Retains Last Value|Use Case |  
+|-----|------------|------------------|---------|  
+|Observable	|Basic stream that can have multiple subscribers.	|No	|General-purpose stream of asynchronous data|
+|Subject	|Acts as both an observer and an observable.	|No	|Event broadcasting to multiple subscribers|
+|BehaviorSubject	|Subject that requires an initial value and replays the last value to new subscribers.	|Yes	|Shared state that needs the latest value for new subscribers (e.g., current user data)|
+|ReplaySubject	|Subject that replays a specified number of past values to new subscribers.	|Yes (configurable)	|Use when you need to retain a history of events for new subscribers|
+|AsyncSubject	|Only emits the last value upon completion.	|Yes (final only)	|Use when you need only the final value after all data is processed (e.g., final result cache)|  
 
-Angular’s HttpClient returns Observables for HTTP requests, enabling easy subscription and data transformation.
-Example:
-```typescript
-Copy code
-this.http.get<User[]>('https://api.example.com/users').subscribe(users => {
-  this.users = users;
-});
-```
-Event Handling with Subjects
+  - Practical Use Cases in Angular
 
-Subjects can be used to handle custom events in services, making it possible to broadcast events to multiple components.
-Example:
-```typescript
-Copy code
-export class EventService {
-  private eventSubject = new Subject<string>();
-  event$ = this.eventSubject.asObservable();
+    - HTTP Data Fetching with Observables
 
-  triggerEvent(message: string) {
-    this.eventSubject.next(message);
-  }
-}
-```
-Shared State with BehaviorSubject
 
-BehaviorSubject is ideal for managing shared state, like authentication.
-Example:
-```typescript
-Copy code
-export class AuthService {
-  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
+    - Angular’s HttpClient returns Observables for HTTP requests, enabling easy subscription and data transformation.
+      - Example:
+        ```typescript
+        Copy code
+        this.http.get<User[]>('https://api.example.com/users').subscribe(users => {
+          this.users = users;
+        });
+        ```
+    - Event Handling with Subjects
+      Subjects can be used to handle custom events in services, making it possible to broadcast events to multiple components.  
+      - Example:
+        ```typescript
+        Copy code
+        export class EventService {
+          private eventSubject = new Subject<string>();
+          event$ = this.eventSubject.asObservable();
 
-  login() {
-    this.isLoggedInSubject.next(true);
-  }
-}
-```
-These reactive tools provide Angular applications with powerful ways to handle data streams and state management. Selecting the right type depends on the specific needs of data sharing, retention, and asynchronicity in the application.
+          triggerEvent(message: string) {
+            this.eventSubject.next(message);
+          }
+        }
+        ```
+    - Shared State with BehaviorSubject
+    BehaviorSubject is ideal for managing shared state, like authentication.
+      - Example:
+        ```typescript
+        Copy code
+        export class AuthService {
+          private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+          isLoggedIn$ = this.isLoggedInSubject.asObservable();
+
+          login() {
+            this.isLoggedInSubject.next(true);
+          }
+        }
+        ```
+    - These reactive tools provide Angular applications with powerful ways to handle data streams and state management. Selecting the right type depends on the specific needs of data sharing, retention, and asynchronicity in the application.
 
 > ### You said:
 Let's talk anything if we missed from angular
@@ -1349,204 +1367,206 @@ Let's talk anything if we missed from angular
 #### ChatGPT
 Certainly! Angular is a vast framework, and there are several other key concepts and tools that are essential for building scalable and maintainable applications. Here are some important aspects we haven't covered yet:
 
-1. Angular Modules
-Purpose: Angular modules (@NgModule) organize the application into cohesive blocks of functionality, helping to structure an application by grouping related components, services, and other dependencies.
-Types: There are two main types:
-Root Module: The main module that bootstraps the application (typically AppModule).
-Feature Modules: Modules that encapsulate specific features or sections of the app, making them reusable and easier to lazy load.
-Example:
-```typescript
-Copy code
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MyFeatureComponent } from './my-feature/my-feature.component';
+1. ## Angular Modules
+  - Purpose: Angular modules (@NgModule) organize the application into cohesive blocks of functionality, helping to structure an application by grouping related components, services, and other dependencies.
+  - Types: There are two main types:
+  - Root Module: The main module that bootstraps the application (typically AppModule).
+  - Feature Modules: Modules that encapsulate specific features or sections of the app, making them reusable and easier to lazy load.
+  - Example:
+    ```typescript
+    Copy code
+    import { NgModule } from '@angular/core';
+    import { CommonModule } from '@angular/common';
+    import { MyFeatureComponent } from './my-feature/my-feature.component';
 
-@NgModule({
-  declarations: [MyFeatureComponent],
-  imports: [CommonModule],
-  exports: [MyFeatureComponent]
-})
-export class MyFeatureModule {}
-```
-2. Angular Services and Dependency Injection
-Purpose: Services in Angular provide business logic, data fetching, or other shared functions. Angular’s dependency injection (DI) system manages service instances and makes them available across the app.
-Singleton Pattern: By default, services are singletons when provided in the root injector.
-Injectable Decorator: The @Injectable decorator marks a class as injectable, meaning Angular’s DI system can inject it where needed.
-Example:
-```typescript
-Copy code
-import { Injectable } from '@angular/core';
+    @NgModule({
+      declarations: [MyFeatureComponent],
+      imports: [CommonModule],
+      exports: [MyFeatureComponent]
+    })
+    export class MyFeatureModule {}
+    ```
+2. ## Angular Services and Dependency Injection
+  - Purpose: Services in Angular provide business logic, data fetching, or other shared functions. Angular’s dependency injection (DI) system manages service instances and makes them available across the app.
+  - Singleton Pattern: By default, services are singletons when provided in the root injector.
+  - Injectable Decorator: The @Injectable decorator marks a class as injectable, meaning Angular’s DI system can inject it where needed.
+  - Example:
+    ```typescript
+    Copy code
+    import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class DataService {
-  fetchData() {
-    // logic to fetch data
-  }
-}
-```
-3. Angular Forms (Template-driven and Reactive)
+    @Injectable({
+      providedIn: 'root'
+    })
+    export class DataService {
+      fetchData() {
+        // logic to fetch data
+      }
+    }
+    ```
+3. ## Angular Forms (Template-driven and Reactive)
 Angular provides two main types of forms:
 
-Template-driven Forms: Best for simpler forms where most logic can be handled in the template. It uses Angular directives (ngModel) to bind form controls to data.
+  - Template-driven Forms: Best for simpler forms where most logic can be handled in the template. It uses Angular directives (ngModel) to bind form controls to data.
 
-Example:
-```html
-Copy code
-<form #myForm="ngForm">
-  <input type="text" name="username" ngModel required>
-</form>
-```
-Reactive Forms: More suited for complex forms where you need more control over validation, dynamic fields, or the form structure itself. Reactive forms use FormGroup and FormControl classes.
+    - Example:
+      ```html
+      Copy code
+      <form #myForm="ngForm">
+        <input type="text" name="username" ngModel required>
+      </form>
+      ```
+  - Reactive Forms: More suited for complex forms where you need more control over validation, dynamic fields, or the form structure itself. Reactive forms use FormGroup and FormControl classes.
 
-Example:
-```typescript
-Copy code
-import { FormGroup, FormControl } from '@angular/forms';
+    - Example:
+      ```typescript
+      Copy code
+      import { FormGroup, FormControl } from '@angular/forms';
 
-this.myForm = new FormGroup({
-  username: new FormControl('', Validators.required)
-});
-```
-4. Routing and Navigation
+      this.myForm = new FormGroup({
+        username: new FormControl('', Validators.required)
+      });
+      ```
+4. ## Routing and Navigation
 Angular’s Router provides mechanisms for navigating between different views, passing data, and protecting routes.
 
-Defining Routes: Routes are defined as objects in an array and typically imported into the app through the RouterModule.
-Route Guards: Angular provides guard services like CanActivate and CanDeactivate for protecting routes based on conditions (e.g., user authentication).
-Lazy Loading: Feature modules can be loaded only when needed, reducing the initial load time of the app.
-Example:
-```typescript
-Copy code
-import { RouterModule, Routes } from '@angular/router';
+  - Defining Routes: Routes are defined as objects in an array and typically imported into the app through the RouterModule.
+  - Route Guards: Angular provides guard services like CanActivate and CanDeactivate for protecting routes based on conditions (e.g., user authentication).
+  - Lazy Loading: Feature modules can be loaded only when needed, reducing the initial load time of the app.
+  - Example:
+    ```typescript
+    Copy code
+    import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
-];
+    const routes: Routes = [
+      { path: 'home', component: HomeComponent },
+      { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
+    ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {}
-```
-5. Angular Directives
+    @NgModule({
+      imports: [RouterModule.forRoot(routes)],
+      exports: [RouterModule]
+    })
+    export class AppRoutingModule {}
+    ```
+5. ## Angular Directives
 Directives are instructions for the DOM and are classified into three types:
 
-Structural Directives: Alter the DOM structure by adding or removing elements. Examples include *ngIf and *ngFor.
-Attribute Directives: Modify the behavior or appearance of an element, component, or another directive. Examples include ngClass and ngStyle.
-Custom Directives: You can create your own directives to apply custom behavior to DOM elements.
-Example of a Custom Directive:
-```typescript
-Copy code
-import { Directive, ElementRef, Renderer2 } from '@angular/core';
+  - Structural Directives: Alter the DOM structure by adding or removing elements. Examples include *ngIf and *ngFor.
+  - Attribute Directives: Modify the behavior or appearance of an element, component, or another directive. Examples include ngClass and ngStyle.
+  - Custom Directives: You can create your own directives to apply custom behavior to DOM elements.
+  - Example of a Custom Directive:
+    ```typescript
+    Copy code
+    import { Directive, ElementRef, Renderer2 } from '@angular/core';
 
-@Directive({
-  selector: '[appHighlight]'
-})
-export class HighlightDirective {
-  constructor(el: ElementRef, renderer: Renderer2) {
-    renderer.setStyle(el.nativeElement, 'color', 'blue');
-  }
-}
-```
-6. Pipes
+    @Directive({
+      selector: '[appHighlight]'
+    })
+    export class HighlightDirective {
+      constructor(el: ElementRef, renderer: Renderer2) {
+        renderer.setStyle(el.nativeElement, 'color', 'blue');
+      }
+    }
+    ```
+6. ## Pipes
 Pipes transform data in the template without changing the original data. Angular provides built-in pipes (date, currency, json, etc.), and you can create custom pipes as well.
 
-Built-in Pipes: Angular has pipes like date, uppercase, lowercase, currency, and async.
-Custom Pipes: You can create custom pipes to apply specific transformations.
-Example:
-```typescript
-Copy code
-import { Pipe, PipeTransform } from '@angular/core';
+  - Built-in Pipes: Angular has pipes like date, uppercase, lowercase, currency, and async.
+  - Custom Pipes: You can create custom pipes to apply specific transformations.
+  - Example:
+    ```typescript
+    Copy code
+    import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'customPipe' })
-export class CustomPipe implements PipeTransform {
-  transform(value: string): string {
-    return value.toUpperCase();
-  }
-}
-```
-7. Angular CLI and Workspace Configuration
+    @Pipe({ name: 'customPipe' })
+    export class CustomPipe implements PipeTransform {
+      transform(value: string): string {
+        return value.toUpperCase();
+      }
+    }
+    ```
+7. ## Angular CLI and Workspace Configuration
 The Angular CLI is a command-line tool for generating and managing Angular projects. It offers commands to:
 
-Generate components, services, modules, etc.
-Build and serve the application with optimization options.
-Run tests and linting.
-Example Commands:
-```bash
-Copy code
-ng new my-app            # Creates a new Angular application
-ng generate component my-component # Generates a new component
-ng build --prod          # Builds the app for production
-```
-8. Angular Testing (Unit Testing and End-to-End Testing)
+  * Generate components, services, modules, etc.
+  * Build and serve the application with optimization options.
+  * Run tests and linting.
+  - Example Commands:
+    ```bash
+    Copy code
+    ng new my-app            # Creates a new Angular application
+    ng generate component my-component # Generates a new component
+    ng build --prod          # Builds the app for production
+    ```  
+
+8. ## Angular Testing (Unit Testing and End-to-End Testing)
 Angular promotes testable code with built-in support for unit testing (using Jasmine and Karma) and end-to-end (E2E) testing (using Protractor or Cypress).
 
-Unit Testing: Unit tests focus on individual components or services. The Angular CLI sets up unit tests by default using Jasmine and Karma.
+  - Unit Testing: Unit tests focus on individual components or services. The Angular CLI sets up unit tests by default using Jasmine and Karma.
 
-Example:
-```typescript
-Copy code
-it('should create the component', () => {
-  const fixture = TestBed.createComponent(AppComponent);
-  const app = fixture.componentInstance;
-  expect(app).toBeTruthy();
-});
-```
-End-to-End Testing: E2E tests simulate user interactions to test the app's behavior. Protractor or Cypress are commonly used for Angular E2E testing.
+  - Example:
+    ```typescript
+    Copy code
+    it('should create the component', () => {
+      const fixture = TestBed.createComponent(AppComponent);
+      const app = fixture.componentInstance;
+      expect(app).toBeTruthy();
+    });
+    ```
+  - End-to-End Testing: E2E tests simulate user interactions to test the app's behavior. Protractor or Cypress are commonly used for Angular E2E testing.
 
-9. Angular Animations
+9. ## Angular Animations
 Angular has a powerful animation API that allows you to add dynamic transitions and effects. The animations API builds on CSS-based animations and is controlled through the @angular/animations package.
 
-Triggering Animations: Animations are defined using trigger, state, style, transition, and animate functions.
-Example:
-```typescript
-Copy code
-import { trigger, state, style, transition, animate } from '@angular/animations';
+  - Triggering Animations: Animations are defined using trigger, state, style, transition, and animate functions.
+  - Example:
+    ```typescript
+    Copy code
+    import { trigger, state, style, transition, animate } from '@angular/animations';
 
-@Component({
-  selector: 'app-example',
-  animations: [
-    trigger('fade', [
-      state('void', style({ opacity: 0 })),
-      transition(':enter, :leave', [animate('500ms ease-in-out')])
-    ])
-  ]
-})
-export class ExampleComponent {}
-```
-10. Error Handling
+    @Component({
+      selector: 'app-example',
+      animations: [
+        trigger('fade', [
+          state('void', style({ opacity: 0 })),
+          transition(':enter, :leave', [animate('500ms ease-in-out')])
+        ])
+      ]
+    })
+    export class ExampleComponent {}
+    ```
+10. ## Error Handling
 Angular provides tools to manage and handle errors effectively, especially for HTTP requests and form validation.
 
-HTTP Error Handling: Use catchError in RxJS to handle errors from HTTP calls gracefully.
-Global Error Handling: You can create a custom error handler by implementing ErrorHandler for global error handling.
-Example:
-```typescript
-Copy code
-import { Injectable, ErrorHandler } from '@angular/core';
+  - HTTP Error Handling: Use catchError in RxJS to handle errors from HTTP calls gracefully.
+  - Global Error Handling: You can create a custom error handler by implementing ErrorHandler for global error handling.
+  - Example:
+    ```typescript
+    Copy code
+    import { Injectable, ErrorHandler } from '@angular/core';
 
-@Injectable()
-export class GlobalErrorHandler implements ErrorHandler {
-  handleError(error: any) {
-    console.error('Global Error:', error);
-    // Log to an external server, show user-friendly messages, etc.
-  }
-}
-```
-11. Progressive Web Application (PWA) Support
+    @Injectable()
+    export class GlobalErrorHandler implements ErrorHandler {
+      handleError(error: any) {
+        console.error('Global Error:', error);
+        // Log to an external server, show user-friendly messages, etc.
+      }
+    }
+    ```
+11. ## Progressive Web Application (PWA) Support
 Angular can be configured as a PWA to enable offline access, push notifications, and other capabilities that make it behave like a native app.
 
-ng add Command: Use ng add @angular/pwa to add PWA capabilities to an Angular project.
-Service Workers: PWAs use service workers for caching assets and API responses, allowing them to function offline.
-12. Accessibility (a11y) Considerations
+  - ``` ng add ```Command: Use ng add @angular/pwa to add PWA capabilities to an Angular project.
+  - Service Workers: PWAs use service workers for caching assets and API responses, allowing them to function offline.
+12. ## Accessibility (a11y) Considerations
 Angular provides tools and best practices for developing accessible applications, ensuring that apps are usable by people with disabilities. Key practices include:
 
-Proper use of semantic HTML.
-Using ARIA (Accessible Rich Internet Applications) attributes where necessary.
-Adding keyboard navigation and screen reader support.
-Angular CDK Accessibility: The Angular Component Dev Kit (CDK) provides tools to assist with accessibility, like the FocusTrap directive for managing keyboard focus.
+  - Proper use of semantic HTML.
+  - Using ARIA (Accessible Rich Internet Applications) attributes where necessary.
+  - Adding keyboard navigation and screen reader support.
+  - Angular CDK Accessibility: The Angular Component Dev Kit (CDK) provides tools to assist with accessibility, like the FocusTrap directive for managing keyboard focus.  
+  
 These additional aspects provide a holistic understanding of Angular and its powerful features. Each concept is essential for building efficient, responsive, and maintainable applications, whether it's a single-page app, a complex enterprise application, or a PWA. Let me know if you’d like more information on any specific area!
 
 > ### You said:
@@ -1555,139 +1575,139 @@ Let's talk if anything missed in sql server
 #### ChatGPT
 Certainly! SQL Server is a comprehensive database management system, and there are many advanced concepts, tools, and best practices that may be helpful to explore further. Here’s a deeper look at some areas that we haven’t covered yet:
 
-1. Indexing Best Practices
-Types of Indexes:
-Clustered Index: Determines the physical order of data in a table; there can be only one clustered index per table.
-Non-Clustered Index: Points to data in the clustered index or table; multiple non-clustered indexes can exist on a table.
-Unique Index: Enforces uniqueness on a column.
-Filtered Index: A non-clustered index with a filter predicate, useful for columns with selective data.
-Full-Text Index: Useful for text-heavy columns where users need to search within the content (like searching within documents).
-Best Practices:
-Avoid over-indexing, as it can slow down write operations.
-Monitor and remove unused indexes.
-Periodically rebuild or reorganize fragmented indexes to optimize performance.
-2. SQL Server Execution Plans
-Purpose: Execution plans show how SQL Server processes queries, including which indexes are used, join types, and the cost of operations.
-Types of Execution Plans:
-Actual Execution Plan: Shows the actual steps taken during query execution.
-Estimated Execution Plan: Shows the predicted execution path without executing the query.
-Plan Analysis:
-Identify costly operations, such as scans over seeks.
-Look for "Missing Index" hints and high-cost operators.
-Query Tuning Advisor can suggest optimizations based on execution plans.
-3. SQL Server Optimization Techniques
-Normalization and Denormalization: Balance data normalization to avoid redundancy and ensure data integrity, but consider denormalization in cases where performance is heavily impacted.
-Indexing: Proper indexing (as above) helps avoid table scans and improves read performance.
-Partitioning: Large tables can be split into smaller partitions to improve query performance and management, especially in data warehousing scenarios.
-Statistics: SQL Server uses statistics to estimate the number of rows for query operations. Keep them updated to improve query performance.
-Use UPDATE STATISTICS regularly or enable the "Auto Update Statistics" option.
-4. Advanced SQL Server Security
-Row-Level Security (RLS): Controls access to rows in a table based on the user context, often used in multi-tenant applications.
-Dynamic Data Masking (DDM): Masks sensitive data on the fly (e.g., hiding parts of an SSN), useful for limiting data exposure.
-Transparent Data Encryption (TDE): Encrypts the entire database at rest, protecting data even if the physical media is compromised.
-Always Encrypted: Provides end-to-end encryption for sensitive columns, with keys managed client-side, ensuring data is only decrypted in the client application.
-5. SQL Server Concurrency and Isolation Levels
-Isolation Levels:
-Read Uncommitted: No locks; allows dirty reads, but best for minimal latency.
-Read Committed (default): Prevents dirty reads by locking the data being read.
-Repeatable Read: Prevents other transactions from modifying data being read.
-Serializable: Highest level, locks entire data ranges to prevent any concurrent reads or modifications.
-Snapshot Isolation: Allows consistent reads without locking, using row versioning.
-Deadlock Detection and Resolution:
-SQL Server automatically detects deadlocks and chooses one process as the "victim" to resolve the deadlock.
-Use retry logic in applications, or optimize queries to reduce lock contention.
-6. SQL Server High Availability and Disaster Recovery (HA/DR)
-Backup and Restore:
-Regular full, differential, and transaction log backups.
-Automate backups and test restore processes to ensure reliability.
-Always On Availability Groups:
-Provides high availability with automatic failover of multiple databases.
-Read replicas can be set up for load balancing read operations.
-Database Mirroring (deprecated): Creates a copy of a database on another server for failover, but is being replaced by Availability Groups.
-Log Shipping: Periodically backs up and restores transaction logs to a secondary server.
-Replication: Distributes data from one database to another, supporting transactional, merge, and snapshot replication.
-7. SQL Server Integration Services (SSIS)
-Purpose: ETL (Extract, Transform, Load) tool for data integration and migration, commonly used for data warehousing.
-Components:
-Control Flow: Manages the workflow, error handling, and decision-making in a package.
-Data Flow: Manages data extraction, transformation, and loading.
-SSIS Expressions: Used to create dynamic configurations for packages.
-Usage Scenarios:
-Moving data between databases and data warehouses.
-Cleaning and transforming data.
-Integrating data from different sources (files, databases, web services).
-8. SQL Server Reporting Services (SSRS)
-Purpose: Used for creating, managing, and deploying reports.
-Types of Reports:
-Paginated Reports: Best for precise, printable reports.
-Mobile Reports: Responsive reports optimized for mobile devices.
-KPIs and Dashboards: High-level summaries for management and tracking.
-Key Features:
-Interactive features (drill-down, sorting).
-Subscriptions and email delivery.
-Custom report development using parameters, expressions, and stored procedures for data retrieval.
-9. Temporal Tables
-Purpose: Temporal tables keep a history of data changes, enabling you to view data as it existed at any point in time.
-Use Cases: Useful for auditing, data recovery, or tracking historical changes.
-Example:
-```sql
-Copy code
-CREATE TABLE Employees
-(
-  EmployeeID int PRIMARY KEY,
-  Name nvarchar(100),
-  Position nvarchar(100),
-  Salary decimal(18, 2),
-  SysStartTime datetime2 GENERATED ALWAYS AS ROW START,
-  SysEndTime datetime2 GENERATED ALWAYS AS ROW END,
-  PERIOD FOR SYSTEM_TIME (SysStartTime, SysEndTime)
-)
-WITH (SYSTEM_VERSIONING = ON);
-```
-10. SQL Server Management and Monitoring Tools
-SQL Server Management Studio (SSMS): Primary tool for managing SQL Server instances, executing queries, and setting up maintenance plans.
-Dynamic Management Views (DMVs): Provide insights into server health, query performance, and active connections.
-Extended Events: Lightweight performance monitoring tool for capturing and diagnosing SQL Server events.
-SQL Profiler (deprecated): Used to monitor SQL Server in real-time, but being replaced by Extended Events.
-Performance Data Collector: Helps to collect and store performance data to analyze and troubleshoot.
-11. SQL Server JSON Support
-Storing JSON Data: SQL Server allows storage and querying of JSON data, making it easier to interact with applications using JSON.
-Functions:
-OPENJSON: Parses JSON text and returns data in table format.
-FOR JSON: Converts SQL result sets into JSON format.
-JSON_VALUE, JSON_QUERY: Extracts scalar values or JSON objects from JSON text.
-Example:
-```sql
-Copy code
-DECLARE @json NVARCHAR(MAX) = N'{"name": "John", "age": 30}';
-SELECT JSON_VALUE(@json, '$.name') AS Name;
-```
-12. Graph Data Support
-Purpose: SQL Server provides native support for graph data structures to model many-to-many relationships and hierarchical data.
-Components:
-Node Tables: Represent entities (like Person or Product).
-Edge Tables: Represent relationships between nodes.
-Use Cases:
-Social networks, recommendation engines, and any scenario requiring relationship-heavy data.
-Example:
-```sql
-Copy code
-CREATE TABLE Person (ID INT PRIMARY KEY, Name NVARCHAR(50)) AS NODE;
-CREATE TABLE Friend (Person1 INT, Person2 INT) AS EDGE;
-```
-13. SQL Server Machine Learning Services
-Purpose: Allows running R and Python scripts directly in SQL Server for advanced analytics.
-Use Cases:
-Predictive modeling, data visualization, and advanced data transformations.
-Example:
-```sql
-Copy code
-EXEC sp_execute_external_script 
-  @language = N'Python',
-  @script = N'OutputDataSet = InputDataSet',
-  @input_data_1 = N'SELECT * FROM SalesData'
-```
-These advanced SQL Server features and best practices are invaluable for managing and optimizing large-scale, data-driven applications. Let me know if you’d like to go deeper into any specific area or if there’s anything more you’re interested in!
+1. ## Indexing Best Practices
+### Types of Indexes:
+  - Clustered Index: Determines the physical order of data in a table; there can be only one clustered index per table.
+  - Non-Clustered Index: Points to data in the clustered index or table; multiple non-clustered indexes can exist on a table.
+  - Unique Index: Enforces uniqueness on a column.
+  - Filtered Index: A non-clustered index with a filter predicate, useful for columns with selective data.
+  - Full-Text Index: Useful for text-heavy columns where users need to search within the content (like searching within documents).
+  - Best Practices:
+    - Avoid over-indexing, as it can slow down write operations.
+    - Monitor and remove unused indexes.
+    - Periodically rebuild or reorganize fragmented indexes to optimize performance.
+2. ## SQL Server Execution Plans
+  - Purpose: Execution plans show how SQL Server processes queries, including which indexes are used, join types, and the cost of operations.
+  - Types of Execution Plans:
+  - Actual Execution Plan: Shows the actual steps taken during query execution.
+  - Estimated Execution Plan: Shows the predicted execution path without executing the query.
+  - Plan Analysis:
+    - Identify costly operations, such as scans over seeks.
+    - Look for "Missing Index" hints and high-cost operators.
+    - Query Tuning Advisor can suggest optimizations based on execution plans.
+3. ## SQL Server Optimization Techniques
+  - Normalization and Denormalization: Balance data normalization to avoid redundancy and ensure data integrity, but consider denormalization in cases where performance is heavily impacted.
+  - Indexing: Proper indexing (as above) helps avoid table scans and improves read performance.
+  - Partitioning: Large tables can be split into smaller partitions to improve query performance and management, especially in data warehousing scenarios.
+  - Statistics: SQL Server uses statistics to estimate the number of rows for query operations. Keep them updated to improve query performance.
+  - Use *UPDATE STATISTICS* regularly or enable the "Auto Update Statistics" option.
+4. ## Advanced SQL Server Security
+  - Row-Level Security (RLS): Controls access to rows in a table based on the user context, often used in multi-tenant applications.
+  - Dynamic Data Masking (DDM): Masks sensitive data on the fly (e.g., hiding parts of an SSN), useful for limiting data exposure.
+  - Transparent Data Encryption (TDE): Encrypts the entire database at rest, protecting data even if the physical media is compromised.
+  - Always Encrypted: Provides end-to-end encryption for sensitive columns, with keys managed client-side, ensuring data is only decrypted in the client application.
+5. ## SQL Server Concurrency and Isolation Levels
+  - Isolation Levels:
+    - Read Uncommitted: No locks; allows dirty reads, but best for minimal latency.
+    - Read Committed (default): Prevents dirty reads by locking the data being read.
+    - Repeatable Read: Prevents other transactions from modifying data being read.
+    - Serializable: Highest level, locks entire data ranges to prevent any concurrent reads or modifications.
+    - Snapshot Isolation: Allows consistent reads without locking, using row versioning.
+  - Deadlock Detection and Resolution:
+    - SQL Server automatically detects deadlocks and chooses one process as the "victim" to resolve the deadlock.
+    - Use retry logic in applications, or optimize queries to reduce lock contention.
+6. ## SQL Server High Availability and Disaster Recovery (HA/DR)
+  - Backup and Restore:
+    - Regular full, differential, and transaction log backups.
+    - Automate backups and test restore processes to ensure reliability.
+  - Always On Availability Groups:
+    - Provides high availability with automatic failover of multiple databases.
+    - Read replicas can be set up for load balancing read operations.
+  - Database Mirroring (deprecated): Creates a copy of a database on another server for failover, but is being replaced by Availability Groups.
+  - Log Shipping: Periodically backs up and restores transaction logs to a secondary server.
+  - Replication: Distributes data from one database to another, supporting transactional, merge, and snapshot replication.
+7. ## SQL Server Integration Services (SSIS)
+  - Purpose: ETL (Extract, Transform, Load) tool for data integration and migration, commonly used for data warehousing.
+  - Components:
+    - Control Flow: Manages the workflow, error handling, and decision-making in a package.
+    - Data Flow: Manages data extraction, transformation, and loading.
+    - SSIS Expressions: Used to create dynamic configurations for packages.
+  - Usage Scenarios:
+    - Moving data between databases and data warehouses.
+    - Cleaning and transforming data.
+    - Integrating data from different sources (files, databases, web services).
+8. ## SQL Server Reporting Services (SSRS)
+  - Purpose: Used for creating, managing, and deploying reports.
+  - Types of Reports:
+    - Paginated Reports: Best for precise, printable reports.
+    - Mobile Reports: Responsive reports optimized for mobile devices.
+    - KPIs and Dashboards: High-level summaries for management and tracking.
+  - Key Features:
+    - Interactive features (drill-down, sorting).
+    - Subscriptions and email delivery.
+    - Custom report development using parameters, expressions, and stored procedures for data retrieval.
+9. ## Temporal Tables
+  - Purpose: Temporal tables keep a history of data changes, enabling you to view data as it existed at any point in time.
+  - Use Cases: Useful for auditing, data recovery, or tracking historical changes.
+  - Example:
+    ```sql
+    Copy code
+    CREATE TABLE Employees
+    (
+      EmployeeID int PRIMARY KEY,
+      Name nvarchar(100),
+      Position nvarchar(100),
+      Salary decimal(18, 2),
+      SysStartTime datetime2 GENERATED ALWAYS AS ROW START,
+      SysEndTime datetime2 GENERATED ALWAYS AS ROW END,
+      PERIOD FOR SYSTEM_TIME (SysStartTime, SysEndTime)
+    )
+    WITH (SYSTEM_VERSIONING = ON);
+    ```
+10. ## SQL Server Management and Monitoring Tools
+  - SQL Server Management Studio (SSMS): Primary tool for managing SQL Server instances, executing queries, and setting up maintenance plans.
+  - Dynamic Management Views (DMVs): Provide insights into server health, query performance, and active connections.
+  - Extended Events: Lightweight performance monitoring tool for capturing and diagnosing SQL Server events.
+  - SQL Profiler (deprecated): Used to monitor SQL Server in real-time, but being replaced by Extended Events.
+  - Performance Data Collector: Helps to collect and store performance data to analyze and troubleshoot.
+11. ## SQL Server JSON Support
+  - Storing JSON Data: SQL Server allows storage and querying of JSON data, making it easier to interact with applications using JSON.
+  - Functions:
+    - OPENJSON: Parses JSON text and returns data in table format.
+    - FOR JSON: Converts SQL result sets into JSON format.
+    - JSON_VALUE, JSON_QUERY: Extracts scalar values or JSON objects from JSON text.
+    - Example:
+      ```sql
+      Copy code
+      DECLARE @json NVARCHAR(MAX) = N'{"name": "John", "age": 30}';
+      SELECT JSON_VALUE(@json, '$.name') AS Name;
+      ```
+12. ## Graph Data Support
+  - Purpose: SQL Server provides native support for graph data structures to model many-to-many relationships and hierarchical data.
+  - Components:
+    - Node Tables: Represent entities (like Person or Product).
+    - Edge Tables: Represent relationships between nodes.
+  - Use Cases:
+    Social networks, recommendation engines, and any scenario requiring relationship-heavy data.
+  - Example:
+    ```sql
+    Copy code
+    CREATE TABLE Person (ID INT PRIMARY KEY, Name NVARCHAR(50)) AS NODE;
+    CREATE TABLE Friend (Person1 INT, Person2 INT) AS EDGE;
+    ```
+13. ## SQL Server Machine Learning Services
+  - Purpose: Allows running R and Python scripts directly in SQL Server for advanced analytics.
+  - Use Cases:
+    Predictive modeling, data visualization, and advanced data transformations.
+  - Example:
+    ```sql
+    Copy code
+    EXEC sp_execute_external_script 
+      @language = N'Python',
+      @script = N'OutputDataSet = InputDataSet',
+      @input_data_1 = N'SELECT * FROM SalesData'
+    ```
+ These advanced SQL Server features and best practices are invaluable for managing and optimizing large-scale, data-driven applications. Let me know if you’d like to go deeper into any specific area or if there’s anything more you’re interested in!
 
 > ### You said:
 Let's talk Events, triggers
@@ -1695,19 +1715,19 @@ Let's talk Events, triggers
 #### ChatGPT
 Events and triggers in SQL Server are powerful tools for managing and automating tasks based on changes or specific conditions in the database. Here’s a detailed breakdown of each:
 
-1. Events in SQL Server
+1. ## Events in SQL Server
 While SQL Server doesn’t have a direct "event" system like application programming environments, there are several ways to handle and respond to events:
 
-Extended Events (XE):
+  - Extended Events (XE):
 
 SQL Server Extended Events is a lightweight performance monitoring system that allows you to capture information about server and database events.
 It can be used for auditing, performance monitoring, troubleshooting, and capturing detailed query execution data.
-Components:
-Event: An action, such as a SQL query starting or a disk I/O operation.
-Session: A collection of events with configurations (like filters and data storage options) that run independently.
-Example Usage:
-Monitor slow queries or high CPU usage.
-Capture events for troubleshooting long-running queries or deadlocks.
+  - Components:
+    - Event: An action, such as a SQL query starting or a disk I/O operation.
+    - Session: A collection of events with configurations (like filters and data storage options) that run independently.
+      - Example Usage:
+        Monitor slow queries or high CPU usage.
+        Capture events for troubleshooting long-running queries or deadlocks.
 ```sql
 Copy code
 CREATE EVENT SESSION MonitorCPUUsage
@@ -1996,42 +2016,42 @@ Fork joins and likes in angular
 #### ChatGPT
 In Angular, fork joins and similar functions (like combineLatest, merge, concat, and zip) are used to handle multiple asynchronous operations and manage observable streams, especially when you need to wait for several HTTP requests to complete or combine multiple observables in different ways. Here's a breakdown of forkJoin and some similar operators commonly used with Angular's reactive programming approach.
 
-forkJoin
+## forkJoin
 forkJoin is an RxJS operator that combines multiple observables and emits the last emitted value from each observable once all observables have completed. It’s often used when you have several requests and you need all of them to finish before you proceed.
 
-How forkJoin Works
-It waits for each observable to complete.
-Once all observables complete, it emits a single array containing the last emitted values of each observable.
-If any observable errors out before completion, forkJoin will emit an error and stop further execution.
-Example Usage of forkJoin in Angular
-Suppose you have three HTTP requests that you need to make, and only when all three complete, you want to display or use their data.
+## How forkJoin Works
+  - It waits for each observable to complete.
+  - Once all observables complete, it emits a single array containing the last emitted values of each observable.
+  - If any observable errors out before completion, forkJoin will emit an error and stop further execution.
+  - Example Usage of forkJoin in Angular
+  - Suppose you have three HTTP requests that you need to make, and only when all three complete, you want to display or use their data.
 
-```typescript
-Copy code
-import { forkJoin } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+    ```typescript
+    Copy code
+    import { forkJoin } from 'rxjs';
+    import { HttpClient } from '@angular/common/http';
 
-constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-loadData() {
-  const request1 = this.http.get('https://api.example.com/data1');
-  const request2 = this.http.get('https://api.example.com/data2');
-  const request3 = this.http.get('https://api.example.com/data3');
+    loadData() {
+      const request1 = this.http.get('https://api.example.com/data1');
+      const request2 = this.http.get('https://api.example.com/data2');
+      const request3 = this.http.get('https://api.example.com/data3');
 
-  forkJoin([request1, request2, request3]).subscribe({
-    next: ([data1, data2, data3]) => {
-      console.log(data1, data2, data3); // Process the data once all requests complete
-    },
-    error: (err) => {
-      console.error('An error occurred:', err); // Handle errors
+      forkJoin([request1, request2, request3]).subscribe({
+        next: ([data1, data2, data3]) => {
+          console.log(data1, data2, data3); // Process the data once all requests complete
+        },
+        error: (err) => {
+          console.error('An error occurred:', err); // Handle errors
+        }
+      });
     }
-  });
-}
-```
-In this example, forkJoin will wait for all three HTTP requests to complete. If they succeed, it will log the response of each in an array; if any of them fail, the error handler will trigger.
+    ```
+  - In this example, forkJoin will wait for all three HTTP requests to complete. If they succeed, it will log the response of each in an array; if any of them fail, the error handler will trigger.
 
-Other RxJS Combination Operators
-combineLatest: Combines multiple observables and emits whenever any of the input observables emits a new value. This is useful when you want an output every time any observable changes and the output depends on the latest values of all observables.
+  - Other RxJS Combination Operators
+    - combineLatest: Combines multiple observables and emits whenever any of the input observables emits a new value. This is useful when you want an output every time any observable changes and the output depends on the latest values of all observables.
 
 ```typescript
 Copy code
