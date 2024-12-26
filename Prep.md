@@ -47,7 +47,7 @@ SOLID Principles: How these principles contribute to maintainable and flexible c
 Would you like to dive into any specific topic, or review common interview questions in some of these areas?
 
 > ### You said:
-Tech stack is asp.net mvc, .net core, web api, angular, sql server
+# Tech stack is asp.net mvc, .net core, web api, angular, sql server
 > ### ChatGPT said:
 #### ChatGPT
 Great! Let’s focus on interview concepts tailored to this tech stack:
@@ -83,7 +83,7 @@ Great! Let’s focus on interview concepts tailored to this tech stack:
 Would you like to discuss some example questions that could come up for each of these areas?
 
 > ### You said:
-Let's discuss web api, mvc, .net core and with emphasis on middleware
+# Let's discuss web api, mvc, .net core and with emphasis on middleware
 > ### ChatGPT said:
 #### ChatGPT
 Sure! Here’s a breakdown of essential concepts and potential interview questions, especially focused on ASP.NET Core, MVC, Web API, and Middleware:
@@ -179,7 +179,7 @@ Answer Tip: Explain enabling UseCors in Startup.cs, defining allowed origins, he
 Reviewing these concepts and practicing with example code for custom middleware, filters, and dependency injection will help you handle these questions confidently in interviews. Let me know if you’d like code samples for any of these!
 
 > ### You said:
-Let's talk deep about the design patterns you mentioned
+# Let's talk deep about the design patterns you mentioned
 > ### ChatGPT said:
 #### ChatGPT
 Absolutely! Design patterns are key to writing clean, reusable, and maintainable code, especially in a full-stack environment like ASP.NET Core and Angular. Here’s a deeper dive into some essential design patterns, focusing on Singleton, Factory, Repository, and Dependency Injection patterns, with examples related to your tech stack.
@@ -356,7 +356,7 @@ Answer Tip: Use Singleton for stateless services that can be shared across the e
 By mastering these patterns and knowing how they fit into ASP.NET Core and Angular architectures, you’ll be able to build and explain robust, maintainable applications. Let me know if you’d like examples of any more patterns!
 
 > ### You said:
-Let's talk security and similar concerns for developing apis via backend
+# Let's talk security and similar concerns for developing apis via backend
 > ### ChatGPT said:
 #### ChatGPT
 Security is crucial when developing APIs, especially in a full-stack application where sensitive data flows between the backend (ASP.NET Core) and frontend (e.g., Angular). Here’s a breakdown of essential security concerns and best practices for developing APIs in your stack:
@@ -533,7 +533,7 @@ Setting CSP in ASP.NET Core: Use middleware to add CSP headers to the response.
 * By following these security practices and principles, you can build APIs that are more resilient against attacks, ensuring data privacy and integrity. Let me know if you'd like more details or code examples for any specific area!
 
 > ### You said:
-Let's now go to architecture choices, for data driven applications, like stored procedure over embedded sql, orms and etc
+# Let's now go to architecture choices, for data driven applications, like stored procedure over embedded sql, orms and etc
 > ### ChatGPT said:
 #### ChatGPT
 For data-driven applications, the architecture choices you make for data access significantly impact performance, maintainability, and scalability. Let’s explore some of these key considerations, including using stored procedures over embedded SQL, the role of ORMs (Object-Relational Mappers), and when to use each option. I'll also discuss other options like NoSQL databases and Data Caching where applicable.
@@ -666,7 +666,7 @@ In larger data-driven applications, consider breaking down services into smaller
 - By carefully choosing the right combination of stored procedures, ORMs, caching, and data storage methods, you can build a highly optimized data-driven application. Each approach has trade-offs, so select the one that best matches your application’s needs. Let me know if you’d like to dive deeper into any of these areas!
 
 > ### You said:
-Let's talk sql in terms of sql server
+# Let's talk sql in terms of sql server
 > ### ChatGPT said:
 #### ChatGPT
 In SQL Server, understanding core SQL concepts and using the advanced features effectively can greatly improve the performance, maintainability, and scalability of applications. Let's dive into key SQL Server concepts, optimization techniques, and best practices.
@@ -797,7 +797,7 @@ Test backup and recovery procedures periodically to ensure they work as expected
 SQL Server’s features and tools provide a comprehensive environment for building robust, secure, and scalable database applications. For developers, mastering these aspects is key to creating performant and reliable applications that leverage SQL Server to its full potential. Let me know if there are any areas you’d like to explore further!
 
 > ### You said:
-Let's discuss angular
+# Let's discuss angular
 > ### ChatGPT said:
 #### ChatGPT
 Angular is a powerful front-end framework developed and maintained by Google, used for building dynamic, single-page applications (SPAs) and complex web applications. Here’s a deep dive into its key concepts, architecture, and best practices:
@@ -930,7 +930,7 @@ Angular Material is a UI component library that follows Google’s Material Desi
   - Angular’s extensive feature set, combined with best practices in structure, security, performance, and testing, makes it a solid choice for
 
 > ### You said:
-Let's talk data sharing between components and life cycle hooks
+# Let's talk data sharing between components and life cycle hooks
 > ### ChatGPT said:
 #### ChatGPT
 Data sharing between components and lifecycle hooks are essential concepts in Angular that help manage data flow and control component behavior at different stages of their lifecycle. Let's explore each in detail.
@@ -1159,7 +1159,7 @@ ngOnDestroy() {
 In summary, Angular’s component lifecycle hooks offer fine-grained control over component initialization, updates, and destruction, while its mechanisms for data sharing between components allow for flexible, modular communication across the app. Mastering these concepts helps create robust, maintainable, and performant applications.
 
 > ### You said:
-Let's talk observable, subjects, and similars
+# Let's talk observable, subjects, and similars
 > ### ChatGPT said:
 #### ChatGPT
 In Angular, Observables, Subjects, and similar reactive constructs are essential for handling asynchronous data streams and event-based programming. They allow you to manage data flow effectively, especially when dealing with data sharing across components, HTTP requests, and real-time data updates. Here’s an in-depth look at each and their applications.
@@ -1362,7 +1362,7 @@ AsyncSubject only emits the last value when the observable completes, and all su
     - These reactive tools provide Angular applications with powerful ways to handle data streams and state management. Selecting the right type depends on the specific needs of data sharing, retention, and asynchronicity in the application.
 
 > ### You said:
-Let's talk anything if we missed from angular
+# Let's talk anything if we missed from angular
 > ### ChatGPT said:
 #### ChatGPT
 Certainly! Angular is a vast framework, and there are several other key concepts and tools that are essential for building scalable and maintainable applications. Here are some important aspects we haven't covered yet:
@@ -1570,7 +1570,7 @@ Angular provides tools and best practices for developing accessible applications
 These additional aspects provide a holistic understanding of Angular and its powerful features. Each concept is essential for building efficient, responsive, and maintainable applications, whether it's a single-page app, a complex enterprise application, or a PWA. Let me know if you’d like more information on any specific area!
 
 > ### You said:
-Let's talk if anything missed in sql server
+# Let's talk if anything missed in sql server
 > ### ChatGPT said:
 #### ChatGPT
 Certainly! SQL Server is a comprehensive database management system, and there are many advanced concepts, tools, and best practices that may be helpful to explore further. Here’s a deeper look at some areas that we haven’t covered yet:
@@ -1710,7 +1710,7 @@ Certainly! SQL Server is a comprehensive database management system, and there a
  These advanced SQL Server features and best practices are invaluable for managing and optimizing large-scale, data-driven applications. Let me know if you’d like to go deeper into any specific area or if there’s anything more you’re interested in!
 
 > ### You said:
-Let's talk Events, triggers
+# Let's talk Events, triggers
 > ### ChatGPT said:
 #### ChatGPT
 Events and triggers in SQL Server are powerful tools for managing and automating tasks based on changes or specific conditions in the database. Here’s a detailed breakdown of each:
@@ -1862,7 +1862,7 @@ Triggers are special types of stored procedures that automatically run when spec
 These tools offer flexibility for managing database logic and performance, and their proper use can greatly enhance the responsiveness, auditability, and robustness of a SQL Server system. Let me know if you'd like to dive further into any specific use case or configuration!
 
 > ### You said:
-Window functions, aggregate functions
+# Window functions, aggregate functions
 > ### ChatGPT said:
 #### ChatGPT
 Window functions and aggregate functions are both powerful tools in SQL Server, but they serve different purposes and provide distinct capabilities. Here’s a deep dive into each, with examples to highlight their unique strengths and applications.
@@ -2011,7 +2011,7 @@ This example calculates the average salary based on the current row and the two 
 Both aggregate functions and window functions are critical for data analysis in SQL Server. Aggregate functions provide basic summarization, while window functions open up more complex analytical capabilities, especially when combined with the powerful PARTITION BY and ORDER BY clauses within the windowing construct. Together, they enable SQL Server developers to perform a wide range of data transformations and calculations efficiently.
 
 > ### You said:
-Fork joins and likes in angular
+# Fork joins and likes in angular
 > ### ChatGPT said:
 #### ChatGPT
 In Angular, fork joins and similar functions (like combineLatest, merge, concat, and zip) are used to handle multiple asynchronous operations and manage observable streams, especially when you need to wait for several HTTP requests to complete or combine multiple observables in different ways. Here's a breakdown of forkJoin and some similar operators commonly used with Angular's reactive programming approach.
